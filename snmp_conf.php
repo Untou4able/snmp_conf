@@ -137,8 +137,8 @@ class snmp_eltex extends snmp_conf {
 }
 
 function copy_options($from, &$to) {
-   foreach($from as $option => $value) {
-      $to[$option] = $value;
-   }
+    foreach($from as $option => $value) {
+        $to[$option] = $value;
+    }
 }
 ?>
