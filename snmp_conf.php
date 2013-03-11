@@ -42,6 +42,7 @@ class snmp_conf {
 }
 
 class snmp_eltex extends snmp_conf {
+    const MAX_SNMP_SEND_TRIES = 10;
     protected $eltex_options;
     protected $mac = '';
     protected $oids_save = Array(
@@ -106,7 +107,7 @@ class snmp_eltex extends snmp_conf {
     }
 
     public function add_nte($mac) {
-        $i = 0;
+        $snmp_send_counder = 0;
         $this->add_mac($mac);
         foreach($this->oids['nte'] as $oid) {
             $this->object_id .= $oid.' ';
@@ -115,7 +116,7 @@ class snmp_eltex extends snmp_conf {
         do {
             $this->send();
             $i++;
-        } while($this->snmp_return != 0 && $i < 10 );
+        } while($this->snmp_return != 0 && $snmp_send_counder < self::MAX_SNMP_SEND_TRIES );
         $this->save_nte();
         return $this->snmp_return;
     }
