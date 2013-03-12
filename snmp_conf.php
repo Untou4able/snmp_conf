@@ -115,7 +115,7 @@ class snmp_eltex extends snmp_conf {
         $this->set_nte();
         do {
             $this->send();
-            $i++;
+            $snmp_send_counder++;
         } while($this->snmp_return != 0 && $snmp_send_counder < self::MAX_SNMP_SEND_TRIES );
         $this->save_nte();
         return $this->snmp_return;
