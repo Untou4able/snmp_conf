@@ -106,7 +106,7 @@ class snmp_eltex extends snmp_conf {
     }
 
     public function add_nte($mac) {
-        $snmp_send_counder = 0;
+        $snmp_send_counter = 0;
         $this->add_mac($mac);
         foreach($this->oids['nte'] as $oid) {
             $this->object_id .= $oid.' ';
@@ -114,9 +114,9 @@ class snmp_eltex extends snmp_conf {
         $this->set_nte();
         do {
             $this->send();
-            $snmp_send_counder++;
-        } while($this->snmp_return != 0 && $snmp_send_counder < self::MAX_SNMP_SEND_TRIES );
-        if($snmp_send_counder >= self::MAX_SNMP_SEND_TRIES ) {
+            $snmp_send_counter++;
+        } while($this->snmp_return != 0 && $snmp_sent_counder < self::MAX_SNMP_SEND_TRIES );
+        if($snmp_send_counter >= self::MAX_SNMP_SEND_TRIES ) {
             $this->snmp_return = '2';
         } else {
             $this->save_nte();
