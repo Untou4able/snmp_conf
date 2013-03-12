@@ -142,4 +142,5 @@ function copy_options($from, &$to) {
         $to[$option] = $value;
     }
 }
+#bla-bla-bla
 ?>
