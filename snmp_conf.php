@@ -42,7 +42,7 @@ class snmp_conf {
 }
 
 class snmp_eltex extends snmp_conf {
-    const MAX_SNMP_SEND_TRIES = 10;
+    const MAX_SNMP_SEND_TRIES = 8;
     protected $eltex_options;
     protected $mac = '';
     protected $oids_save = Array(
@@ -66,12 +66,11 @@ class snmp_eltex extends snmp_conf {
         )
     );
 
-
     function __construct($ip, $options = NULL) {
         $this->eltex_options = Array(
             'version' => '2c',
-            'timeout' => '5',
-            'retries' => '5'
+            'timeout' => '1',
+            'retries' => '1'
         );
         if(! is_null($options))
             copy_options($options, $this->eltex_options);
@@ -117,7 +116,11 @@ class snmp_eltex extends snmp_conf {
             $this->send();
             $snmp_send_counder++;
         } while($this->snmp_return != 0 && $snmp_send_counder < self::MAX_SNMP_SEND_TRIES );
-        $this->save_nte();
+        if($snmp_send_counder >= self::MAX_SNMP_SEND_TRIES ) {
+            $this->snmp_return = '2';
+        } else {
+            $this->save_nte();
+        }
         return $this->snmp_return;
     }
 
