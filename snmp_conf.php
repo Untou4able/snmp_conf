@@ -115,7 +115,7 @@ class snmp_eltex extends snmp_conf {
         do {
             $this->send();
             $snmp_send_counter++;
-        } while($this->snmp_return != 0 && $snmp_sent_counder < self::MAX_SNMP_SEND_TRIES );
+        } while($this->snmp_return != 0 && $snmp_send_counter < self::MAX_SNMP_SEND_TRIES );
         if($snmp_send_counter >= self::MAX_SNMP_SEND_TRIES ) {
             $this->snmp_return = '2';
         } else {
