@@ -42,7 +42,7 @@ class snmp_conf {
 }
 
 class snmp_eltex extends snmp_conf {
-    const MAX_SNMP_SEND_TRIES = 8;
+    const MAX_SNMP_SEND_TRIES = 5;
     protected $eltex_options;
     protected $mac = '';
     protected $oids_save = Array(
@@ -69,8 +69,8 @@ class snmp_eltex extends snmp_conf {
     function __construct($ip, $options = NULL) {
         $this->eltex_options = Array(
             'version' => '2c',
-            'timeout' => '1',
-            'retries' => '1'
+            'timeout' => '2',
+            'retries' => '2'
         );
         if(! is_null($options))
             copy_options($options, $this->eltex_options);
@@ -106,7 +106,7 @@ class snmp_eltex extends snmp_conf {
     }
 
     public function add_nte($mac) {
-        $snmp_send_counder = 0;
+        $snmp_send_counter = 0;
         $this->add_mac($mac);
         foreach($this->oids['nte'] as $oid) {
             $this->object_id .= $oid.' ';
@@ -114,9 +114,9 @@ class snmp_eltex extends snmp_conf {
         $this->set_nte();
         do {
             $this->send();
-            $snmp_send_counder++;
-        } while($this->snmp_return != 0 && $snmp_send_counder < self::MAX_SNMP_SEND_TRIES );
-        if($snmp_send_counder >= self::MAX_SNMP_SEND_TRIES ) {
+            $snmp_send_counter++;
+        } while($this->snmp_return != 0 && $snmp_send_counter < self::MAX_SNMP_SEND_TRIES );
+        if($snmp_send_counter >= self::MAX_SNMP_SEND_TRIES ) {
             $this->snmp_return = '2';
         } else {
             $this->save_nte();
