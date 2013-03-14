@@ -35,6 +35,11 @@ class eltex_nte extends snmp_eltex implements iSnmp_eltex {
         parent::__construct($ip, $this->eltex_options);
     }
     
+    private function del_mac($mac) {
+        $this->mac_to_oid($mac);
+        $this->del_oids = preg_replace('/%deced_mac%/', $this->mac, $this->del_oids);
+    }
+    
     private function add_mac($mac) {
         $this->mac_to_oid($mac);
         $this->oids = preg_replace('/%deced_mac%/', $this->mac, $this->oids);
@@ -73,10 +78,13 @@ class eltex_nte extends snmp_eltex implements iSnmp_eltex {
     }
 
     public function del_ont($mac) {
+        echo 'in del_ont func';
         $this->del_mac($mac);
         foreach($this->del_oids as $oid) {
             $this->object_id .= $oid.' ';
         }
+        $this->set_ont();
+        $this->send();
         $this->save_ont();
     }
     
@@ -85,6 +93,5 @@ class eltex_nte extends snmp_eltex implements iSnmp_eltex {
             $this->oids[$prop] = preg_replace('/%value%/', $value, $this->oids[$prop]);
         }
     }
-
 }
 ?>
