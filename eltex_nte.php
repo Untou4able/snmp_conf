@@ -78,7 +78,6 @@ class eltex_nte extends snmp_eltex implements iSnmp_eltex {
     }
 
     public function del_ont($mac) {
-        echo 'in del_ont func';
         $this->del_mac($mac);
         foreach($this->del_oids as $oid) {
             $this->object_id .= $oid.' ';
