@@ -5,6 +5,11 @@ include_once 'iSnmp_eltex.php';
 class eltex_nte extends snmp_eltex implements iSnmp_eltex {
     protected $mac = '', $eltex_options;
     
+    protected $vpn_oids = Array(
+        'innervlan' => '1.3.6.1.4.1.35265.1.21.16.1.1.14.6%deced_mac% u %value%'
+    );
+
+
     protected $oids = Array(
         'id' => '1.3.6.1.4.1.35265.1.21.16.1.1.8.6%deced_mac% s %value%',
         'desc' => '1.3.6.1.4.1.35265.1.21.16.1.1.2.6%deced_mac% u %value%',
@@ -49,9 +54,11 @@ class eltex_nte extends snmp_eltex implements iSnmp_eltex {
         foreach(preg_split('/:/', $mac) as $mac_octet) {
             $this->mac .= '.'.hexdec($mac_octet);
         }
+        echo $this->mac;
     }
     
     public function save_ont() {
+        $this->object_id = '';
         foreach($this->oids_save as $oid) {
             $this->object_id .= $oid;
         }
@@ -90,6 +97,8 @@ class eltex_nte extends snmp_eltex implements iSnmp_eltex {
     public function set_ont_property($prop, $value) {
         if(array_key_exists($prop, $this->oids)) {
             $this->oids[$prop] = preg_replace('/%value%/', $value, $this->oids[$prop]);
+        } elseif($prop == 'innervlan') {
+            $this->oids['innervlan'] = preg_replace('/%value%/', $value, $this->vpn_oids['innervlan']);
         }
     }
 }
