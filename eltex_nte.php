@@ -26,13 +26,15 @@ class eltex_nte extends snmp_eltex implements iSnmp_eltex {
     );
     
     protected $del_oids = Array(
-           '1.3.6.1.4.1.35265.1.21.16.1.1.21.6%deced_mac% u 1', '1.3.6.1.4.1.35265.1.21.16.1.1.20.6%deced_mac% u 1', '1.3.6.1.4.1.35265.1.21.45.0 u 1'
+//        '1.3.6.1.4.1.35265.1.21.16.1.1.21.6%deced_mac% u 1',
+        '1.3.6.1.4.1.35265.1.21.16.1.1.20.6%deced_mac% u 1',
+        '1.3.6.1.4.1.35265.1.21.45.0 u 1'
     );
     
     public function __construct($ip, $options = NULL) {
         $this->eltex_options = Array(
             'version' => '2c',
-            'timeout' => '1',
+            'timeout' => '2',
             'retries' => '2'
         );
         if(! is_null($options))
@@ -54,7 +56,6 @@ class eltex_nte extends snmp_eltex implements iSnmp_eltex {
         foreach(preg_split('/:/', $mac) as $mac_octet) {
             $this->mac .= '.'.hexdec($mac_octet);
         }
-        echo $this->mac;
     }
     
     public function save_ont() {

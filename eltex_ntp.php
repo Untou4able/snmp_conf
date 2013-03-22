@@ -38,12 +38,12 @@ class eltex_ntp extends snmp_eltex implements iSnmp_eltex {
             'ppp_l' => '1.3.6.1.4.1.35265.1.22.3.15.1.11.8.69.76.84.88%deced_mac% s %value%',
             'ppp_p' => '1.3.6.1.4.1.35265.1.22.3.15.1.12.8.69.76.84.88%deced_mac% s %value%',
             'sip_s' => '1.3.6.1.4.1.35265.1.22.3.15.1.10.8.69.76.84.88%deced_mac% s 172.31.254.34',
-            'voip1_e' => '1.3.6.1.4.1.35265.1.22.3.15.1.4.8.69.76.84.88%deced_mac% s Enable',
-            'voip1_l' => '1.3.6.1.4.1.35265.1.22.3.15.1.5.8.69.76.84.88%deced_mac% s %value%',
-            'voip1_p' => '1.3.6.1.4.1.35265.1.22.3.15.1.6.8.69.76.84.88%deced_mac% s %value%',
-            'voip2_e' => '1.3.6.1.4.1.35265.1.22.3.15.1.7.8.69.76.84.88%deced_mac% s Enable',
-            'voip2_l' => '1.3.6.1.4.1.35265.1.22.3.15.1.8.8.69.76.84.88%deced_mac% s %value%',
-            'voip2_p' => '1.3.6.1.4.1.35265.1.22.3.15.1.9.8.69.76.84.88%deced_mac% s %value%',
+            'voip1_e' => '1.3.6.1.4.1.35265.1.22.3.15.1.4.8.69.76.84.88%deced_mac% s "Enabled"',
+            'voip1_l' => '1.3.6.1.4.1.35265.1.22.3.15.1.5.8.69.76.84.88%deced_mac% s "%value%"',
+            'voip1_p' => '1.3.6.1.4.1.35265.1.22.3.15.1.6.8.69.76.84.88%deced_mac% s "%value%"',
+            'voip2_e' => '1.3.6.1.4.1.35265.1.22.3.15.1.7.8.69.76.84.88%deced_mac% s "Enabled"',
+            'voip2_l' => '1.3.6.1.4.1.35265.1.22.3.15.1.8.8.69.76.84.88%deced_mac% s "%value%"',
+            'voip2_p' => '1.3.6.1.4.1.35265.1.22.3.15.1.9.8.69.76.84.88%deced_mac% s "%value%"',
             'inner_vlan' => '1.3.6.1.4.1.35265.1.22.3.5.1.5.2.%slot%.8.69.76.84.88%deced_mac% u %value%',
             'vpn_e' => '1.3.6.1.4.1.35265.1.22.3.5.1.4.2.%slot%.8.69.76.84.88%deced_mac% i 1',
             'vpn_cfg' => Array(
@@ -150,7 +150,7 @@ class eltex_ntp extends snmp_eltex implements iSnmp_eltex {
     }
     
     protected function mac_to_oid($mac) {
-        $mac = preg_replace('/[^0-9]+/i', '', $mac);
+        $mac = preg_replace('/^eltx/i', '', $mac);
         $mac_c = strlen($mac);
         for($i = 0;$i < $mac_c; $i += 2) {
             $this->mac .= '.'.hexdec(substr($mac, $i, 2));
@@ -197,7 +197,7 @@ class eltex_ntp extends snmp_eltex implements iSnmp_eltex {
             $this->object_id .= $oid.' ';
         }
         $this->set_ont();
-        $this->send();
+        $this->bunch_sender();
         $this->save_ont();
     }
     
