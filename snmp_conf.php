@@ -1,4 +1,16 @@
 <?php
+/*
+ * 
+ * Root snmp class
+ * All other classes expends this one
+ * 
+ * 
+ * System package NET-SNMP is used to implement snmp configuration of Eltex devices
+ * FreeBSD 8.1-RELEASE (GENERIC) #0: Mon Jul 19 02:55:53 UTC 2010
+ * NET-SNMP version: 5.7
+ *
+ * 
+ */
 class snmp_conf {
     protected $ip, $snmp_comm, $snmp_return, $snmp_req, $object_id, $type, $value;
     protected $version = '1';
